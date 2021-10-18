@@ -7,5 +7,8 @@ urlpatterns=[
     path('select/', views.select),
     path('update/<int:id>/', views.update),
     path('delete/<int:id>/', views.delete),
+    path('shell/', views.shell),
+    path('read/', views.read),
+    path('write/', views.write),
 ]
 
