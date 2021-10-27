@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+  postgresdatabase:
+    image: "postgres:11-alpine"
+    environment:
+     POSTGRES_PASSWORD: Postgres@123
+     POSTGRES_DB: Employee
+
+    ports:
+      - '5432:5432'  
+    volumes:
+      - postgres_data:/Library/PostgreSQL/13/data
+    
+  web:
+    build: .
+    command: sh -c "bash /wait-for-postgres.sh postgresdatabase python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000" 
+    volumes:
+      - Assignment5:/Assignment5
+    ports:
+      - '8000:8000'
+    environment:
+     POSTGRES_HOST: postgresdatabase
+     POSTGRES_PASSWORD: Postgres@123
+    depends_on:
+      - postgresdatabase
+     
+
+volumes:
+  postgres_data:
+  Assignment5:

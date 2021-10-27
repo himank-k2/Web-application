@@ -10,5 +10,6 @@ urlpatterns=[
     path('shell/', views.shell),
     path('read/', views.read),
     path('write/', views.write),
+    path('show/',views.show),
 ]
 

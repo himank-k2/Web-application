@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from App.forms import EmployeeForm,EmployeeForm1
 from App.models import Employee
-from django.http import Http404, HttpResponse
+from django.http import  HttpResponse
 from django.shortcuts import get_object_or_404
+from django.core import serializers
 import subprocess
 
 def shell(request):
@@ -46,6 +47,11 @@ def write(request):
     else:
         return render(request,'App/writename.html')
 
+def show(request):
+    employees = Employee.objects.all()
+    employeejson = serializers.serialize('json',employees)
+    return  HttpResponse(employeejson,content_type='application/json')
+
 
 def insert(request):
     if request.method == "POST":
@@ -65,7 +71,7 @@ def insert(request):
 
 
 def select(request):
-    if request.method == "GET":
+  if request.method == "GET":
      employees = Employee.objects.all()
      return render(request, "App/show.html", {'employees': employees},status=200)
 
